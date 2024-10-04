@@ -6,8 +6,9 @@ import bencodepy
 # import requests - available if you need it!
 
 def decode_bencode(bencoded_value):
-    if isinstance(bencoded_value, bytes):
-        return bencodepy.decode(bencoded_value)
+    bc = bencodepy.Bencode(encoding='utf-8')
+    decoded_value = bc.decode(bencoded_value)
+    return decoded_value
 
 
 def main():
