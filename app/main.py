@@ -1,40 +1,18 @@
 import json
 import sys
 
-# import bencodepy - available if you need it!
+import bencodepy
+
 # import requests - available if you need it!
 
-# Examples:
-#
-# - decode_bencode(b"5:hello") -> b"hello"
-# - decode_bencode(b"10:hello12345") -> b"hello12345"
 def decode_bencode(bencoded_value):
-
-    # Decode bencoded integers
-    # print(bencoded_value)
-    if bencoded_value.startswith(b"i") and bencoded_value.endswith(b"e"):
-        # print("starts with i and ends with e")
-        bencoded_value = bencoded_value[1:-1]
-        # print(bencoded_value, type(bencoded_value))
-        if len(bencoded_value) != len(str(int(bencoded_value.decode()))):
-            raise ValueError("Invalid encoded value")
-
-        return int(bencoded_value.decode())
-
-
-    if chr(bencoded_value[0]).isdigit():
-        first_colon_index = bencoded_value.find(b":")
-        if first_colon_index == -1:
-            raise ValueError("Invalid encoded value")
-        return bencoded_value[first_colon_index+1:]
-    else:
-        raise NotImplementedError("Only strings are supported at the moment")
+    if isinstance(bencoded_value, bytes):
+        return bencodepy.decode(bencoded_value)
 
 
 def main():
     command = sys.argv[1]
 
-    # You can use print statements as follows for debugging, they'll be visible when running tests.
     # print("Logs from your program will appear here!")
 
     if command == "decode":
