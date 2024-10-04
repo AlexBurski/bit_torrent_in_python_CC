@@ -9,6 +9,19 @@ import sys
 # - decode_bencode(b"5:hello") -> b"hello"
 # - decode_bencode(b"10:hello12345") -> b"hello12345"
 def decode_bencode(bencoded_value):
+
+    # Decode bencoded integers
+    # print(bencoded_value)
+    if bencoded_value.startswith(b"i") and bencoded_value.endswith(b"e"):
+        # print("starts with i and ends with e")
+        bencoded_value = bencoded_value[1:-1]
+        # print(bencoded_value, type(bencoded_value))
+        if len(bencoded_value) != len(str(int(bencoded_value.decode()))):
+            raise ValueError("Invalid encoded value")
+
+        return int(bencoded_value.decode())
+
+
     if chr(bencoded_value[0]).isdigit():
         first_colon_index = bencoded_value.find(b":")
         if first_colon_index == -1:
