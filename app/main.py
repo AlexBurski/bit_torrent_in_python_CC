@@ -93,9 +93,18 @@ def main():
 
             info_hash = hashlib.sha1(bencoded_info).hexdigest()
 
+            piece_length = decoded_dict.get(b"info", {}).get(b"piece length")
+            pieces = decoded_dict.get(b"info", {}).get(b"pieces")
+
+
             print(f"Tracker URL: {tracker_url}")
             print(f"Length: {file_length}")
             print(f"Info Hash: {info_hash}")
+            print(f"Piece Length: {piece_length}")
+            print(f"Piece Info Hash: ")
+            for index in range(0, len(pieces), 20):
+                print(pieces[index : index + 20].hex())
+
 
     else:
         raise NotImplementedError(f"Unknown command {command}")
